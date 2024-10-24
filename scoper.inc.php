@@ -45,6 +45,7 @@ return [
 			  ->notName('autoload.php')
 			  ->in('vendor/elasticsearch')
 			  ->in('vendor/elastic')
+              ->in('vendor/opensearch-project')
 			  ->in('vendor/guzzlehttp')
 			  ->in('vendor/php-http')
 			  ->in('vendor/psr'),

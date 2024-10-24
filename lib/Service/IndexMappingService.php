@@ -29,10 +29,8 @@ declare(strict_types=1);
 
 namespace OCA\FullTextSearch_Elasticsearch\Service;
 
-use OCA\FullTextSearch_Elasticsearch\Vendor\Elastic\Elasticsearch\Client;
-use OCA\FullTextSearch_Elasticsearch\Vendor\Elastic\Elasticsearch\Exception\ClientResponseException;
-use OCA\FullTextSearch_Elasticsearch\Vendor\Elastic\Elasticsearch\Exception\MissingParameterException;
-use OCA\FullTextSearch_Elasticsearch\Vendor\Elastic\Elasticsearch\Exception\ServerResponseException;
+use OCA\FullTextSearch_Elasticsearch\Vendor\Http\Client\Exception;
+use OCA\FullTextSearch_Elasticsearch\Vendor\OpenSearch\Client;
 use OCA\FullTextSearch_Elasticsearch\Exceptions\AccessIsEmptyException;
 use OCA\FullTextSearch_Elasticsearch\Exceptions\ConfigurationException;
 use OCP\FullTextSearch\Model\IIndexDocument;
@@ -58,9 +56,6 @@ class IndexMappingService {
 	 * @return array
 	 * @throws AccessIsEmptyException
 	 * @throws ConfigurationException
-	 * @throws ClientResponseException
-	 * @throws MissingParameterException
-	 * @throws ServerResponseException
 	 */
 	public function indexDocumentNew(Client $client, IIndexDocument $document): array {
 		$index = [
@@ -75,7 +70,7 @@ class IndexMappingService {
 		$this->onIndexingDocument($document, $index);
 		$result = $client->index($index['index']);
 
-		return $result->asArray();
+		return $result;
 	}
 
 
@@ -85,10 +80,7 @@ class IndexMappingService {
 	 *
 	 * @return array
 	 * @throws AccessIsEmptyException
-	 * @throws ClientResponseException
 	 * @throws ConfigurationException
-	 * @throws MissingParameterException
-	 * @throws ServerResponseException
 	 */
 	public function indexDocumentUpdate(Client $client, IIndexDocument $document): array {
 		$index = [
@@ -104,8 +96,8 @@ class IndexMappingService {
 		try {
 			$result = $client->update($index['index']);
 
-			return $result->asArray();
-		} catch (ClientResponseException $e) {
+			return $result;
+		} catch (Exception $e) {
 			return $this->indexDocumentNew($client, $document);
 		}
 	}
@@ -117,8 +109,6 @@ class IndexMappingService {
 	 * @param string $documentId
 	 *
 	 * @throws ConfigurationException
-	 * @throws MissingParameterException
-	 * @throws ServerResponseException
 	 */
 	public function indexDocumentRemove(Client $client, string $providerId, string $documentId): void {
 		$index = [
@@ -131,7 +121,7 @@ class IndexMappingService {
 
 		try {
 			$client->delete($index['index']);
-		} catch (ClientResponseException $e) {
+		} catch (Exception $e) {
 		}
 	}
 

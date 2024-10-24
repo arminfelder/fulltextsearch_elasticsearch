@@ -59,7 +59,9 @@ class Indices extends AbstractEndpoint
         $method = 'PUT';
         $url = $this->addQueryString($url, $params, ['timeout', 'master_timeout', 'ignore_unavailable', 'allow_no_indices', 'expand_wildcards', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index', 'block'], $request, 'indices.add_block');
+        return $this->client->sendRequest($request);
     }
     /**
      * Performs the analysis process on a text and return the tokens breakdown of the text.
@@ -93,7 +95,9 @@ class Indices extends AbstractEndpoint
         }
         $url = $this->addQueryString($url, $params, ['pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json', 'Content-Type' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index'], $request, 'indices.analyze');
+        return $this->client->sendRequest($request);
     }
     /**
      * Clears all or specific caches for one or more indices.
@@ -133,7 +137,9 @@ class Indices extends AbstractEndpoint
         }
         $url = $this->addQueryString($url, $params, ['fielddata', 'fields', 'query', 'ignore_unavailable', 'allow_no_indices', 'expand_wildcards', 'request', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index'], $request, 'indices.clear_cache');
+        return $this->client->sendRequest($request);
     }
     /**
      * Clones an index
@@ -168,7 +174,9 @@ class Indices extends AbstractEndpoint
         $method = 'PUT';
         $url = $this->addQueryString($url, $params, ['timeout', 'master_timeout', 'wait_for_active_shards', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json', 'Content-Type' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index', 'target'], $request, 'indices.clone');
+        return $this->client->sendRequest($request);
     }
     /**
      * Closes an index.
@@ -204,7 +212,9 @@ class Indices extends AbstractEndpoint
         $method = 'POST';
         $url = $this->addQueryString($url, $params, ['timeout', 'master_timeout', 'ignore_unavailable', 'allow_no_indices', 'expand_wildcards', 'wait_for_active_shards', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index'], $request, 'indices.close');
+        return $this->client->sendRequest($request);
     }
     /**
      * Creates an index with optional settings and mappings.
@@ -238,7 +248,9 @@ class Indices extends AbstractEndpoint
         $method = 'PUT';
         $url = $this->addQueryString($url, $params, ['wait_for_active_shards', 'timeout', 'master_timeout', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json', 'Content-Type' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index'], $request, 'indices.create');
+        return $this->client->sendRequest($request);
     }
     /**
      * Creates a data stream
@@ -268,7 +280,9 @@ class Indices extends AbstractEndpoint
         $method = 'PUT';
         $url = $this->addQueryString($url, $params, ['pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['name'], $request, 'indices.create_data_stream');
+        return $this->client->sendRequest($request);
     }
     /**
      * Provides statistics on operations happening in a data stream.
@@ -301,7 +315,9 @@ class Indices extends AbstractEndpoint
         }
         $url = $this->addQueryString($url, $params, ['pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['name'], $request, 'indices.data_streams_stats');
+        return $this->client->sendRequest($request);
     }
     /**
      * Deletes an index.
@@ -336,7 +352,9 @@ class Indices extends AbstractEndpoint
         $method = 'DELETE';
         $url = $this->addQueryString($url, $params, ['timeout', 'master_timeout', 'ignore_unavailable', 'allow_no_indices', 'expand_wildcards', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index'], $request, 'indices.delete');
+        return $this->client->sendRequest($request);
     }
     /**
      * Deletes an alias.
@@ -369,7 +387,9 @@ class Indices extends AbstractEndpoint
         $method = 'DELETE';
         $url = $this->addQueryString($url, $params, ['timeout', 'master_timeout', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index', 'name'], $request, 'indices.delete_alias');
+        return $this->client->sendRequest($request);
     }
     /**
      * Deletes the data stream lifecycle of the selected data streams.
@@ -403,7 +423,9 @@ class Indices extends AbstractEndpoint
         $method = 'DELETE';
         $url = $this->addQueryString($url, $params, ['expand_wildcards', 'timeout', 'master_timeout', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['name'], $request, 'indices.delete_data_lifecycle');
+        return $this->client->sendRequest($request);
     }
     /**
      * Deletes a data stream.
@@ -434,7 +456,9 @@ class Indices extends AbstractEndpoint
         $method = 'DELETE';
         $url = $this->addQueryString($url, $params, ['expand_wildcards', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['name'], $request, 'indices.delete_data_stream');
+        return $this->client->sendRequest($request);
     }
     /**
      * Deletes an index template.
@@ -466,7 +490,9 @@ class Indices extends AbstractEndpoint
         $method = 'DELETE';
         $url = $this->addQueryString($url, $params, ['timeout', 'master_timeout', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['name'], $request, 'indices.delete_index_template');
+        return $this->client->sendRequest($request);
     }
     /**
      * Deletes an index template.
@@ -498,7 +524,9 @@ class Indices extends AbstractEndpoint
         $method = 'DELETE';
         $url = $this->addQueryString($url, $params, ['timeout', 'master_timeout', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['name'], $request, 'indices.delete_template');
+        return $this->client->sendRequest($request);
     }
     /**
      * Analyzes the disk usage of each field of an index or data stream
@@ -534,7 +562,9 @@ class Indices extends AbstractEndpoint
         $method = 'POST';
         $url = $this->addQueryString($url, $params, ['run_expensive_tasks', 'flush', 'ignore_unavailable', 'allow_no_indices', 'expand_wildcards', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index'], $request, 'indices.disk_usage');
+        return $this->client->sendRequest($request);
     }
     /**
      * Downsample an index
@@ -567,7 +597,9 @@ class Indices extends AbstractEndpoint
         $method = 'POST';
         $url = $this->addQueryString($url, $params, ['pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json', 'Content-Type' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index', 'target_index'], $request, 'indices.downsample');
+        return $this->client->sendRequest($request);
     }
     /**
      * Returns information about whether a particular index exists.
@@ -603,7 +635,9 @@ class Indices extends AbstractEndpoint
         $method = 'HEAD';
         $url = $this->addQueryString($url, $params, ['local', 'ignore_unavailable', 'allow_no_indices', 'expand_wildcards', 'flat_settings', 'include_defaults', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index'], $request, 'indices.exists');
+        return $this->client->sendRequest($request);
     }
     /**
      * Returns information about whether a particular alias exists.
@@ -643,7 +677,9 @@ class Indices extends AbstractEndpoint
         }
         $url = $this->addQueryString($url, $params, ['ignore_unavailable', 'allow_no_indices', 'expand_wildcards', 'local', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['name', 'index'], $request, 'indices.exists_alias');
+        return $this->client->sendRequest($request);
     }
     /**
      * Returns information about whether a particular index template exists.
@@ -676,7 +712,9 @@ class Indices extends AbstractEndpoint
         $method = 'HEAD';
         $url = $this->addQueryString($url, $params, ['flat_settings', 'master_timeout', 'local', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['name'], $request, 'indices.exists_index_template');
+        return $this->client->sendRequest($request);
     }
     /**
      * Returns information about whether a particular index template exists.
@@ -709,7 +747,9 @@ class Indices extends AbstractEndpoint
         $method = 'HEAD';
         $url = $this->addQueryString($url, $params, ['flat_settings', 'master_timeout', 'local', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['name'], $request, 'indices.exists_template');
+        return $this->client->sendRequest($request);
     }
     /**
      * Retrieves information about the index's current data stream lifecycle, such as any potential encountered error, time since creation etc.
@@ -742,7 +782,9 @@ class Indices extends AbstractEndpoint
         $method = 'GET';
         $url = $this->addQueryString($url, $params, ['include_defaults', 'master_timeout', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index'], $request, 'indices.explain_data_lifecycle');
+        return $this->client->sendRequest($request);
     }
     /**
      * Returns the field usage stats for each field of an index
@@ -777,7 +819,9 @@ class Indices extends AbstractEndpoint
         $method = 'GET';
         $url = $this->addQueryString($url, $params, ['fields', 'ignore_unavailable', 'allow_no_indices', 'expand_wildcards', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index'], $request, 'indices.field_usage_stats');
+        return $this->client->sendRequest($request);
     }
     /**
      * Performs the flush operation on one or more indices.
@@ -815,7 +859,9 @@ class Indices extends AbstractEndpoint
         }
         $url = $this->addQueryString($url, $params, ['force', 'wait_if_ongoing', 'ignore_unavailable', 'allow_no_indices', 'expand_wildcards', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index'], $request, 'indices.flush');
+        return $this->client->sendRequest($request);
     }
     /**
      * Performs the force merge operation on one or more indices.
@@ -855,7 +901,9 @@ class Indices extends AbstractEndpoint
         }
         $url = $this->addQueryString($url, $params, ['flush', 'ignore_unavailable', 'allow_no_indices', 'expand_wildcards', 'max_num_segments', 'only_expunge_deletes', 'wait_for_completion', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index'], $request, 'indices.forcemerge');
+        return $this->client->sendRequest($request);
     }
     /**
      * Returns information about one or more indices.
@@ -893,7 +941,9 @@ class Indices extends AbstractEndpoint
         $method = 'GET';
         $url = $this->addQueryString($url, $params, ['local', 'ignore_unavailable', 'allow_no_indices', 'expand_wildcards', 'features', 'flat_settings', 'include_defaults', 'master_timeout', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index'], $request, 'indices.get');
+        return $this->client->sendRequest($request);
     }
     /**
      * Returns an alias.
@@ -937,7 +987,9 @@ class Indices extends AbstractEndpoint
         }
         $url = $this->addQueryString($url, $params, ['ignore_unavailable', 'allow_no_indices', 'expand_wildcards', 'local', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['name', 'index'], $request, 'indices.get_alias');
+        return $this->client->sendRequest($request);
     }
     /**
      * Returns the data stream lifecycle of the selected data streams.
@@ -970,7 +1022,9 @@ class Indices extends AbstractEndpoint
         $method = 'GET';
         $url = $this->addQueryString($url, $params, ['expand_wildcards', 'include_defaults', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['name'], $request, 'indices.get_data_lifecycle');
+        return $this->client->sendRequest($request);
     }
     /**
      * Returns data streams.
@@ -1005,7 +1059,9 @@ class Indices extends AbstractEndpoint
         }
         $url = $this->addQueryString($url, $params, ['expand_wildcards', 'include_defaults', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['name'], $request, 'indices.get_data_stream');
+        return $this->client->sendRequest($request);
     }
     /**
      * Returns mapping for one or more fields.
@@ -1046,7 +1102,9 @@ class Indices extends AbstractEndpoint
         }
         $url = $this->addQueryString($url, $params, ['include_defaults', 'ignore_unavailable', 'allow_no_indices', 'expand_wildcards', 'local', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['fields', 'index'], $request, 'indices.get_field_mapping');
+        return $this->client->sendRequest($request);
     }
     /**
      * Returns an index template.
@@ -1083,7 +1141,9 @@ class Indices extends AbstractEndpoint
         }
         $url = $this->addQueryString($url, $params, ['flat_settings', 'master_timeout', 'local', 'include_defaults', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['name'], $request, 'indices.get_index_template');
+        return $this->client->sendRequest($request);
     }
     /**
      * Returns mappings for one or more indices.
@@ -1121,7 +1181,9 @@ class Indices extends AbstractEndpoint
         }
         $url = $this->addQueryString($url, $params, ['ignore_unavailable', 'allow_no_indices', 'expand_wildcards', 'master_timeout', 'local', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index'], $request, 'indices.get_mapping');
+        return $this->client->sendRequest($request);
     }
     /**
      * Returns settings for one or more indices.
@@ -1168,7 +1230,9 @@ class Indices extends AbstractEndpoint
         }
         $url = $this->addQueryString($url, $params, ['master_timeout', 'ignore_unavailable', 'allow_no_indices', 'expand_wildcards', 'flat_settings', 'local', 'include_defaults', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index', 'name'], $request, 'indices.get_settings');
+        return $this->client->sendRequest($request);
     }
     /**
      * Returns an index template.
@@ -1204,7 +1268,9 @@ class Indices extends AbstractEndpoint
         }
         $url = $this->addQueryString($url, $params, ['flat_settings', 'master_timeout', 'local', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['name'], $request, 'indices.get_template');
+        return $this->client->sendRequest($request);
     }
     /**
      * Migrates an alias to a data stream
@@ -1234,7 +1300,9 @@ class Indices extends AbstractEndpoint
         $method = 'POST';
         $url = $this->addQueryString($url, $params, ['pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['name'], $request, 'indices.migrate_to_data_stream');
+        return $this->client->sendRequest($request);
     }
     /**
      * Modifies a data stream
@@ -1263,7 +1331,9 @@ class Indices extends AbstractEndpoint
         $method = 'POST';
         $url = $this->addQueryString($url, $params, ['pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json', 'Content-Type' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, [], $request, 'indices.modify_data_stream');
+        return $this->client->sendRequest($request);
     }
     /**
      * Opens an index.
@@ -1299,7 +1369,9 @@ class Indices extends AbstractEndpoint
         $method = 'POST';
         $url = $this->addQueryString($url, $params, ['timeout', 'master_timeout', 'ignore_unavailable', 'allow_no_indices', 'expand_wildcards', 'wait_for_active_shards', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index'], $request, 'indices.open');
+        return $this->client->sendRequest($request);
     }
     /**
      * Promotes a data stream from a replicated data stream managed by CCR to a regular data stream
@@ -1329,7 +1401,9 @@ class Indices extends AbstractEndpoint
         $method = 'POST';
         $url = $this->addQueryString($url, $params, ['pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['name'], $request, 'indices.promote_data_stream');
+        return $this->client->sendRequest($request);
     }
     /**
      * Creates or updates an alias.
@@ -1363,7 +1437,9 @@ class Indices extends AbstractEndpoint
         $method = 'PUT';
         $url = $this->addQueryString($url, $params, ['timeout', 'master_timeout', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json', 'Content-Type' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index', 'name'], $request, 'indices.put_alias');
+        return $this->client->sendRequest($request);
     }
     /**
      * Updates the data stream lifecycle of the selected data streams.
@@ -1398,7 +1474,9 @@ class Indices extends AbstractEndpoint
         $method = 'PUT';
         $url = $this->addQueryString($url, $params, ['expand_wildcards', 'timeout', 'master_timeout', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['name'], $request, 'indices.put_data_lifecycle');
+        return $this->client->sendRequest($request);
     }
     /**
      * Creates or updates an index template.
@@ -1432,7 +1510,9 @@ class Indices extends AbstractEndpoint
         $method = 'PUT';
         $url = $this->addQueryString($url, $params, ['create', 'cause', 'master_timeout', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json', 'Content-Type' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['name'], $request, 'indices.put_index_template');
+        return $this->client->sendRequest($request);
     }
     /**
      * Updates the index mappings.
@@ -1469,7 +1549,9 @@ class Indices extends AbstractEndpoint
         $method = 'PUT';
         $url = $this->addQueryString($url, $params, ['timeout', 'master_timeout', 'ignore_unavailable', 'allow_no_indices', 'expand_wildcards', 'write_index_only', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json', 'Content-Type' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index'], $request, 'indices.put_mapping');
+        return $this->client->sendRequest($request);
     }
     /**
      * Updates the index settings.
@@ -1512,7 +1594,9 @@ class Indices extends AbstractEndpoint
         }
         $url = $this->addQueryString($url, $params, ['master_timeout', 'timeout', 'preserve_existing', 'reopen', 'ignore_unavailable', 'allow_no_indices', 'expand_wildcards', 'flat_settings', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json', 'Content-Type' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index'], $request, 'indices.put_settings');
+        return $this->client->sendRequest($request);
     }
     /**
      * Creates or updates an index template.
@@ -1546,7 +1630,9 @@ class Indices extends AbstractEndpoint
         $method = 'PUT';
         $url = $this->addQueryString($url, $params, ['order', 'create', 'master_timeout', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json', 'Content-Type' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['name'], $request, 'indices.put_template');
+        return $this->client->sendRequest($request);
     }
     /**
      * Returns information about ongoing index shard recoveries.
@@ -1581,7 +1667,9 @@ class Indices extends AbstractEndpoint
         }
         $url = $this->addQueryString($url, $params, ['detailed', 'active_only', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index'], $request, 'indices.recovery');
+        return $this->client->sendRequest($request);
     }
     /**
      * Performs the refresh operation in one or more indices.
@@ -1617,7 +1705,9 @@ class Indices extends AbstractEndpoint
         }
         $url = $this->addQueryString($url, $params, ['ignore_unavailable', 'allow_no_indices', 'expand_wildcards', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index'], $request, 'indices.refresh');
+        return $this->client->sendRequest($request);
     }
     /**
      * Reloads an index's search analyzers and their resources.
@@ -1651,7 +1741,9 @@ class Indices extends AbstractEndpoint
         $method = empty($params['body']) ? 'GET' : 'POST';
         $url = $this->addQueryString($url, $params, ['ignore_unavailable', 'allow_no_indices', 'expand_wildcards', 'resource', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index'], $request, 'indices.reload_search_analyzers');
+        return $this->client->sendRequest($request);
     }
     /**
      * Resolves the specified index expressions to return information about each cluster, including the local cluster, if included.
@@ -1685,7 +1777,9 @@ class Indices extends AbstractEndpoint
         $method = 'GET';
         $url = $this->addQueryString($url, $params, ['ignore_unavailable', 'ignore_throttled', 'allow_no_indices', 'expand_wildcards', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['name'], $request, 'indices.resolve_cluster');
+        return $this->client->sendRequest($request);
     }
     /**
      * Returns information about any matching indices, aliases, and data streams
@@ -1716,7 +1810,9 @@ class Indices extends AbstractEndpoint
         $method = 'GET';
         $url = $this->addQueryString($url, $params, ['expand_wildcards', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['name'], $request, 'indices.resolve_index');
+        return $this->client->sendRequest($request);
     }
     /**
      * Updates an alias to point to a new index when the existing index
@@ -1732,6 +1828,7 @@ class Indices extends AbstractEndpoint
      *     master_timeout: time, // Specify timeout for connection to master
      *     wait_for_active_shards: string, // Set the number of active shards to wait for on the newly created rollover index before the operation returns.
      *     lazy: boolean, // If set to true, the rollover action will only mark a data stream to signal that it needs to be rolled over at the next write. Only allowed on data streams.
+     *     target_failure_store: boolean, // If set to true, the rollover action will be applied on the failure store of the data stream.
      *     pretty: boolean, // Pretty format the returned JSON response. (DEFAULT: false)
      *     human: boolean, // Return human readable values for statistics. (DEFAULT: true)
      *     error_trace: boolean, // Include the stack trace of returned errors. (DEFAULT: false)
@@ -1757,9 +1854,11 @@ class Indices extends AbstractEndpoint
             $url = '/' . $this->encode($params['alias']) . '/_rollover';
             $method = 'POST';
         }
-        $url = $this->addQueryString($url, $params, ['timeout', 'dry_run', 'master_timeout', 'wait_for_active_shards', 'lazy', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
+        $url = $this->addQueryString($url, $params, ['timeout', 'dry_run', 'master_timeout', 'wait_for_active_shards', 'lazy', 'target_failure_store', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json', 'Content-Type' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['alias', 'new_index'], $request, 'indices.rollover');
+        return $this->client->sendRequest($request);
     }
     /**
      * Provides low-level information about segments in a Lucene index.
@@ -1796,7 +1895,9 @@ class Indices extends AbstractEndpoint
         }
         $url = $this->addQueryString($url, $params, ['ignore_unavailable', 'allow_no_indices', 'expand_wildcards', 'verbose', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index'], $request, 'indices.segments');
+        return $this->client->sendRequest($request);
     }
     /**
      * Provides store information for shard copies of indices.
@@ -1833,7 +1934,9 @@ class Indices extends AbstractEndpoint
         }
         $url = $this->addQueryString($url, $params, ['status', 'ignore_unavailable', 'allow_no_indices', 'expand_wildcards', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index'], $request, 'indices.shard_stores');
+        return $this->client->sendRequest($request);
     }
     /**
      * Allow to shrink an existing index into a new index with fewer primary shards.
@@ -1868,7 +1971,9 @@ class Indices extends AbstractEndpoint
         $method = 'PUT';
         $url = $this->addQueryString($url, $params, ['timeout', 'master_timeout', 'wait_for_active_shards', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json', 'Content-Type' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index', 'target'], $request, 'indices.shrink');
+        return $this->client->sendRequest($request);
     }
     /**
      * Simulate matching the given index name against the index templates in the system
@@ -1903,7 +2008,9 @@ class Indices extends AbstractEndpoint
         $method = 'POST';
         $url = $this->addQueryString($url, $params, ['create', 'cause', 'master_timeout', 'include_defaults', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json', 'Content-Type' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['name'], $request, 'indices.simulate_index_template');
+        return $this->client->sendRequest($request);
     }
     /**
      * Simulate resolving the given template name or body
@@ -1941,7 +2048,9 @@ class Indices extends AbstractEndpoint
         }
         $url = $this->addQueryString($url, $params, ['create', 'cause', 'master_timeout', 'include_defaults', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json', 'Content-Type' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['name'], $request, 'indices.simulate_template');
+        return $this->client->sendRequest($request);
     }
     /**
      * Allows you to split an existing index into a new index with more primary shards.
@@ -1976,7 +2085,9 @@ class Indices extends AbstractEndpoint
         $method = 'PUT';
         $url = $this->addQueryString($url, $params, ['timeout', 'master_timeout', 'wait_for_active_shards', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json', 'Content-Type' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index', 'target'], $request, 'indices.split');
+        return $this->client->sendRequest($request);
     }
     /**
      * Provides statistics on operations happening in an index.
@@ -2025,7 +2136,9 @@ class Indices extends AbstractEndpoint
         }
         $url = $this->addQueryString($url, $params, ['completion_fields', 'fielddata_fields', 'fields', 'groups', 'level', 'include_segment_file_sizes', 'include_unloaded_segments', 'expand_wildcards', 'forbid_closed_indices', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['metric', 'index'], $request, 'indices.stats');
+        return $this->client->sendRequest($request);
     }
     /**
      * Unfreezes an index. When a frozen index is unfrozen, the index goes through the normal recovery process and becomes writeable again.
@@ -2061,7 +2174,9 @@ class Indices extends AbstractEndpoint
         $method = 'POST';
         $url = $this->addQueryString($url, $params, ['timeout', 'master_timeout', 'ignore_unavailable', 'allow_no_indices', 'expand_wildcards', 'wait_for_active_shards', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index'], $request, 'indices.unfreeze');
+        return $this->client->sendRequest($request);
     }
     /**
      * Updates index aliases.
@@ -2092,7 +2207,9 @@ class Indices extends AbstractEndpoint
         $method = 'POST';
         $url = $this->addQueryString($url, $params, ['timeout', 'master_timeout', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json', 'Content-Type' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, [], $request, 'indices.update_aliases');
+        return $this->client->sendRequest($request);
     }
     /**
      * Allows a user to validate a potentially expensive query without executing it.
@@ -2138,6 +2255,8 @@ class Indices extends AbstractEndpoint
         }
         $url = $this->addQueryString($url, $params, ['explain', 'ignore_unavailable', 'allow_no_indices', 'expand_wildcards', 'q', 'analyzer', 'analyze_wildcard', 'default_operator', 'df', 'lenient', 'rewrite', 'all_shards', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json', 'Content-Type' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index'], $request, 'indices.validate_query');
+        return $this->client->sendRequest($request);
     }
 }

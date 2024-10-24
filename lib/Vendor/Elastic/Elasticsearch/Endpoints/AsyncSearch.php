@@ -53,7 +53,9 @@ class AsyncSearch extends AbstractEndpoint
         $method = 'DELETE';
         $url = $this->addQueryString($url, $params, ['pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['id'], $request, 'async_search.delete');
+        return $this->client->sendRequest($request);
     }
     /**
      * Retrieves the results of a previously submitted async search request given its ID.
@@ -86,7 +88,9 @@ class AsyncSearch extends AbstractEndpoint
         $method = 'GET';
         $url = $this->addQueryString($url, $params, ['wait_for_completion_timeout', 'keep_alive', 'typed_keys', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['id'], $request, 'async_search.get');
+        return $this->client->sendRequest($request);
     }
     /**
      * Retrieves the status of a previously submitted async search request given its ID.
@@ -117,7 +121,9 @@ class AsyncSearch extends AbstractEndpoint
         $method = 'GET';
         $url = $this->addQueryString($url, $params, ['keep_alive', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['id'], $request, 'async_search.status');
+        return $this->client->sendRequest($request);
     }
     /**
      * Executes a search request asynchronously.
@@ -192,6 +198,8 @@ class AsyncSearch extends AbstractEndpoint
         }
         $url = $this->addQueryString($url, $params, ['wait_for_completion_timeout', 'keep_on_completion', 'keep_alive', 'batched_reduce_size', 'request_cache', 'analyzer', 'analyze_wildcard', 'default_operator', 'df', 'explain', 'stored_fields', 'docvalue_fields', 'from', 'ignore_unavailable', 'ignore_throttled', 'allow_no_indices', 'expand_wildcards', 'lenient', 'preference', 'q', 'routing', 'search_type', 'size', 'sort', '_source', '_source_excludes', '_source_includes', 'terminate_after', 'stats', 'suggest_field', 'suggest_mode', 'suggest_size', 'suggest_text', 'timeout', 'track_scores', 'track_total_hits', 'allow_partial_search_results', 'typed_keys', 'version', 'seq_no_primary_term', 'max_concurrent_shard_requests', 'pretty', 'human', 'error_trace', 'source', 'filter_path']);
         $headers = ['Accept' => 'application/json', 'Content-Type' => 'application/json'];
-        return $this->client->sendRequest($this->createRequest($method, $url, $headers, $params['body'] ?? null));
+        $request = $this->createRequest($method, $url, $headers, $params['body'] ?? null);
+        $request = $this->addOtelAttributes($params, ['index'], $request, 'async_search.submit');
+        return $this->client->sendRequest($request);
     }
 }

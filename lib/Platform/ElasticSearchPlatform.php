@@ -31,8 +31,8 @@ declare(strict_types=1);
 namespace OCA\FullTextSearch_Elasticsearch\Platform;
 
 
-use OCA\FullTextSearch_Elasticsearch\Vendor\Elastic\Elasticsearch\Client;
-use OCA\FullTextSearch_Elasticsearch\Vendor\Elastic\Elasticsearch\ClientBuilder;
+use OCA\FullTextSearch_Elasticsearch\Vendor\OpenSearch\Client;
+use OCA\FullTextSearch_Elasticsearch\Vendor\OpenSearch\ClientBuilder;
 use OCA\FullTextSearch_Elasticsearch\Vendor\Elastic\Transport\Exception\NoNodeAvailableException;
 use Exception;
 use InvalidArgumentException;
@@ -144,7 +144,7 @@ class ElasticSearchPlatform implements IFullTextSearchPlatform {
 	 */
 	public function testPlatform(): bool {
 		$ping = $this->getClient()->ping();
-		return $ping->asBool();
+		return $ping;
 	}
 
 
@@ -154,7 +154,6 @@ class ElasticSearchPlatform implements IFullTextSearchPlatform {
 	 * We create a general index.
 	 *
 	 * @throws ConfigurationException
-	 * @throws BadRequest400Exception
 	 */
 	public function initializeIndex() {
 		$this->indexService->initializeIndex($this->getClient());
@@ -197,9 +196,6 @@ class ElasticSearchPlatform implements IFullTextSearchPlatform {
 			);
 
 			return $index;
-		} catch (NoNodeAvailableException $e) {
-			// replace with \OCP\FullTextSearch\Exceptions\PlatformTemporaryException for version 28.
-			throw new \OCA\FullTextSearch\Exceptions\PlatformTemporaryException();
 		} catch (Exception $e) {
 			$this->manageIndexErrorException($document, $e);
 		}
