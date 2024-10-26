@@ -29,10 +29,8 @@ declare(strict_types=1);
 
 namespace OCA\FullTextSearch_Elasticsearch\Service;
 
-use OCA\FullTextSearch_Elasticsearch\Vendor\Elastic\Elasticsearch\Client;
-use OCA\FullTextSearch_Elasticsearch\Vendor\Elastic\Elasticsearch\Exception\ClientResponseException;
-use OCA\FullTextSearch_Elasticsearch\Vendor\Elastic\Elasticsearch\Exception\MissingParameterException;
-use OCA\FullTextSearch_Elasticsearch\Vendor\Elastic\Elasticsearch\Exception\ServerResponseException;
+use OCA\FullTextSearch_Elasticsearch\Vendor\Http\Client\Exception;
+use OCA\FullTextSearch_Elasticsearch\Vendor\OpenSearch\Client;
 use OCA\FullTextSearch_Elasticsearch\Exceptions\AccessIsEmptyException;
 use OCA\FullTextSearch_Elasticsearch\Exceptions\ConfigurationException;
 use OCA\FullTextSearch_Elasticsearch\Tools\Traits\TArrayTools;
@@ -55,10 +53,7 @@ class IndexService {
 	 * @param Client $client
 	 *
 	 * @return bool
-	 * @throws ClientResponseException
 	 * @throws ConfigurationException
-	 * @throws MissingParameterException
-	 * @throws ServerResponseException
 	 */
 	public function testIndex(Client $client): bool {
 		$map = $this->indexMappingService->generateGlobalMap(false);
@@ -69,7 +64,7 @@ class IndexService {
 		$result = $client->indices()
 						 ->exists($map);
 
-		return $result->asBool();
+		return $result;
 	}
 
 
@@ -77,24 +72,21 @@ class IndexService {
 	 * @param Client $client
 	 *
 	 * @throws ConfigurationException
-	 * @throws MissingParameterException
-	 * @throws ServerResponseException
 	 */
 	public function initializeIndex(Client $client): void {
 		try {
 			if ($client->indices()
-					   ->exists($this->indexMappingService->generateGlobalMap(false))
-					   ->asBool()) {
+					   ->exists($this->indexMappingService->generateGlobalMap(false))) {
 				return;
 			}
-		} catch (ClientResponseException $e) {
+		} catch (Exception $e) {
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);
 		}
 
 		try {
 			$client->indices()
 				   ->create($this->indexMappingService->generateGlobalMap());
-		} catch (ClientResponseException $e) {
+		} catch (Exception $e) {
 			$this->logger->notice('reset index all', ['exception' => $e]);
 			$this->resetIndexAll($client);
 		}
@@ -102,7 +94,7 @@ class IndexService {
 		try {
 			$client->ingest()
 				   ->putPipeline($this->indexMappingService->generateGlobalIngest());
-		} catch (ClientResponseException $e) {
+		} catch (Exception $e) {
 			$this->logger->notice('reset index all', ['exception' => $e]);
 			$this->resetIndexAll($client);
 		}
@@ -118,7 +110,7 @@ class IndexService {
 	public function resetIndex(Client $client, string $providerId): void {
 		try {
 			$client->deleteByQuery($this->indexMappingService->generateDeleteQuery($providerId));
-		} catch (ClientResponseException $e) {
+		} catch (Exception $e) {
 			$this->logger->notice('reset index all', ['exception' => $e]);
 		}
 	}
@@ -128,21 +120,19 @@ class IndexService {
 	 * @param Client $client
 	 *
 	 * @throws ConfigurationException
-	 * @throws MissingParameterException
-	 * @throws ServerResponseException
 	 */
 	public function resetIndexAll(Client $client): void {
 		try {
 			$client->ingest()
 				   ->deletePipeline($this->indexMappingService->generateGlobalIngest(false));
-		} catch (ClientResponseException $e) {
+		} catch (Exception $e) {
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);
 		}
 
 		try {
 			$client->indices()
 				   ->delete($this->indexMappingService->generateGlobalMap(false));
-		} catch (ClientResponseException $e) {
+		} catch (Exception $e) {
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);
 		}
 	}

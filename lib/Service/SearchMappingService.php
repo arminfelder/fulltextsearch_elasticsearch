@@ -306,16 +306,16 @@ class SearchMappingService {
 	 */
 	private function generateSearchQueryAccess(IDocumentAccess $access): array {
 		$query = [];
-		$query[] = ['term' => ['owner.keyword' => $access->getViewerId()]];
-		$query[] = ['term' => ['users.keyword' => $access->getViewerId()]];
-		$query[] = ['term' => ['users.keyword' => '__all']];
+		$query[] = ['term' => ['owner' => $access->getViewerId()]];
+		$query[] = ['term' => ['users' => $access->getViewerId()]];
+		$query[] = ['term' => ['users' => '__all']];
 
 		foreach ($access->getGroups() as $group) {
-			$query[] = ['term' => ['groups.keyword' => $group]];
+			$query[] = ['term' => ['groups' => $group]];
 		}
 
 		foreach ($access->getCircles() as $circle) {
-			$query[] = ['term' => ['circles.keyword' => $circle]];
+			$query[] = ['term' => ['circles' => $circle]];
 		}
 
 		return $query;

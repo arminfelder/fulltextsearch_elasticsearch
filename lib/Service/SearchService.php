@@ -31,10 +31,7 @@ declare(strict_types=1);
 namespace OCA\FullTextSearch_Elasticsearch\Service;
 
 
-use OCA\FullTextSearch_Elasticsearch\Vendor\Elastic\Elasticsearch\Client;
-use OCA\FullTextSearch_Elasticsearch\Vendor\Elastic\Elasticsearch\Exception\ClientResponseException;
-use OCA\FullTextSearch_Elasticsearch\Vendor\Elastic\Elasticsearch\Exception\MissingParameterException;
-use OCA\FullTextSearch_Elasticsearch\Vendor\Elastic\Elasticsearch\Exception\ServerResponseException;
+use OCA\FullTextSearch_Elasticsearch\Vendor\OpenSearch\Client;
 use Exception;
 use OC\FullTextSearch\Model\DocumentAccess;
 use OC\FullTextSearch\Model\IndexDocument;
@@ -99,7 +96,7 @@ class SearchService {
 		}
 
 		$this->logger->debug('result from ES', ['result' => $result]);
-		$this->updateSearchResult($searchResult, $result->asArray());
+		$this->updateSearchResult($searchResult, $result);
 
 		foreach ($result['hits']['hits'] as $entry) {
 			$searchResult->addDocument($this->parseSearchEntry($entry, $access->getViewerId()));
@@ -116,9 +113,6 @@ class SearchService {
 	 *
 	 * @return IIndexDocument
 	 * @throws ConfigurationException
-	 * @throws ClientResponseException
-	 * @throws MissingParameterException
-	 * @throws ServerResponseException
 	 */
 	public function getDocument(
 		Client $client,
