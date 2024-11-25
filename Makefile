@@ -1,4 +1,4 @@
-app_name=FullTextSearch_ElasticSearch
+app_name=FullTextSearch_OpenSearch
 
 build_dir=$(CURDIR)/build/artifacts
 appstore_dir=$(build_dir)/appstore

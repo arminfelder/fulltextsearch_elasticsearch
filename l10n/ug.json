@@ -1,8 +1,8 @@
 { "translations": {
-    "Full text search - Elasticsearch Platform" : "تولۇق تېكىست ئىزدەش - ئېلاستىكىلىق ئىزدەش سۇپىسى",
-    "Index using ElasticSearch" : "ElasticSearch نى ئىشلىتىپ كۆرسەتكۈچ",
-    "Extension to the _Full text search_ app to communicate with ElasticSearch." : "ElasticSearch بىلەن ئالاقە قىلىش ئۈچۈن _ تولۇق تېكىست ئىزدەش_ دېتالىغا كېڭەيتىش.",
-    "Elastic Search" : "ئېلاستىكىلىق ئىزدەش",
+    "Full text search - OpenSearch Platform" : "تولۇق تېكىست ئىزدەش - ئېلاستىكىلىق ئىزدەش سۇپىسى",
+    "Index using OpenSearch" : "OpenSearch نى ئىشلىتىپ كۆرسەتكۈچ",
+    "Extension to the _Full text search_ app to communicate with OpenSearch." : "OpenSearch بىلەن ئالاقە قىلىش ئۈچۈن _ تولۇق تېكىست ئىزدەش_ دېتالىغا كېڭەيتىش.",
+    "Open Search" : "ئېلاستىكىلىق ئىزدەش",
     "Address of the Servlet" : "مۇلازىمېتىرنىڭ ئادرېسى",
     "Include your credential in case authentication is required." : "دەلىللەش تەلەپ قىلىنغان ئەھۋالدا كىنىشكىڭىزنى قوشۇڭ.",
     "Index" : "كۆرسەتكۈچ",
