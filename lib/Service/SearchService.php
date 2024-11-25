@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 
 /**
- * FullTextSearch_Elasticsearch - Use Elasticsearch to index the content of your nextcloud
+ * FullTextSearch_OpenSearch - Use OpenSearch to index the content of your nextcloud
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -28,16 +28,16 @@ declare(strict_types=1);
  */
 
 
-namespace OCA\FullTextSearch_Elasticsearch\Service;
+namespace OCA\FullTextSearch_OpenSearch\Service;
 
 
-use OCA\FullTextSearch_Elasticsearch\Vendor\OpenSearch\Client;
+use OCA\FullTextSearch_OpenSearch\Vendor\OpenSearch\Client;
 use Exception;
 use OC\FullTextSearch\Model\DocumentAccess;
 use OC\FullTextSearch\Model\IndexDocument;
-use OCA\FullTextSearch_Elasticsearch\Exceptions\ConfigurationException;
-use OCA\FullTextSearch_Elasticsearch\Exceptions\SearchQueryGenerationException;
-use OCA\FullTextSearch_Elasticsearch\Tools\Traits\TArrayTools;
+use OCA\FullTextSearch_OpenSearch\Exceptions\ConfigurationException;
+use OCA\FullTextSearch_OpenSearch\Exceptions\SearchQueryGenerationException;
+use OCA\FullTextSearch_OpenSearch\Tools\Traits\TArrayTools;
 use OCP\FullTextSearch\Model\IDocumentAccess;
 use OCP\FullTextSearch\Model\IIndexDocument;
 use OCP\FullTextSearch\Model\ISearchResult;
@@ -47,7 +47,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Class SearchService
  *
- * @package OCA\FullTextSearch_Elasticsearch\Service
+ * @package OCA\FullTextSearch_OpenSearch\Service
  */
 class SearchService {
 	use TArrayTools;
